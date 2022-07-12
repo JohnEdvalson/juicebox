@@ -72,9 +72,8 @@ async function createPost({ authorId, title, content }) {
       rows: [post],
     } = await client.query(
       `
-    INSERT INTO users("authorId", title, content) 
+    INSERT INTO posts("authorId", title, content) 
     VALUES($1, $2, $3) 
-    ON CONFLICT (username) DO NOTHING 
     RETURNING *;
   `,
       [authorId, title, content]
@@ -102,7 +101,7 @@ async function updatePost(id, fields = { title, content, active }) {
       rows: [post],
     } = await client.query(
       `
-      UPDATE post
+      UPDATE posts
       SET ${setString}
       WHERE id=${id}
       RETURNING *;
@@ -132,7 +131,7 @@ async function getAllPosts() {
 
 async function getPostsByUser(userId) {
   try {
-    const { rows } = client.query(`
+    const { rows } = await client.query(`
       SELECT * FROM posts
       WHERE "authorId"=${userId};
     `);
@@ -162,9 +161,14 @@ async function getUserById(userId) {
     if (!user) {
       return null;
     } else {
+      delete user.password;
+      const posts = await getPostsByUser(userId);
+      user.posts = posts;
       return user;
     }
-  } catch (error) {}
+  } catch (error) {
+    throw error;
+  }
 
   // if it does:
   // delete the 'password' key from the returned object
@@ -179,4 +183,9 @@ module.exports = {
   getAllUsers,
   createUser,
   updateUser,
+  createPost,
+  updatePost,
+  getAllPosts,
+  getPostsByUser,
+  getUserById,
 };
