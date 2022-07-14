@@ -1,12 +1,5 @@
 // inside db/index.js
 //////////////// Part 2 Stuff /////////////////
-const PORT = 3000;
-const express = require("express");
-const server = express();
-
-server.listen(PORT, () => {
-  console.log("The server is up on port", PORT);
-});
 
 ///////////// Part 1 Stuff ////////////////////
 const { Client } = require("pg"); // imports the pg module
@@ -357,6 +350,19 @@ async function getPostById(postId) {
   }
 }
 
+async function getAllTags() {
+  try {
+    const tags = await client.query(
+      `SELECT *
+      FROM tags
+      `
+    );
+    return tags;
+  } catch (error) {
+    throw error;
+  }
+}
+
 // and export them
 module.exports = {
   client,
@@ -373,4 +379,5 @@ module.exports = {
   addTagsToPost,
   getPostById,
   getPostsByTagName,
+  getAllTags,
 };
