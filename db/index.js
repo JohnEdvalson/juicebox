@@ -1,4 +1,14 @@
 // inside db/index.js
+//////////////// Part 2 Stuff /////////////////
+const PORT = 3000;
+const express = require("express");
+const server = express();
+
+server.listen(PORT, () => {
+  console.log("The server is up on port", PORT);
+});
+
+///////////// Part 1 Stuff ////////////////////
 const { Client } = require("pg"); // imports the pg module
 
 // supply the db name and location of the database
