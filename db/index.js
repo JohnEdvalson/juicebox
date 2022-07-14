@@ -1,6 +1,4 @@
 // inside db/index.js
-//////////////// Part 2 Stuff /////////////////
-
 ///////////// Part 1 Stuff ////////////////////
 const { Client } = require("pg"); // imports the pg module
 
@@ -51,6 +49,25 @@ async function updateUser(id, fields = {}) {
       RETURNING *;
     `,
       Object.values(fields)
+    );
+
+    return user;
+  } catch (error) {
+    throw error;
+  }
+}
+
+async function getUserByUsername(username) {
+  try {
+    const {
+      rows: [user],
+    } = await client.query(
+      `
+      SELECT *
+      FROM users
+      WHERE username=$1;
+    `,
+      [username]
     );
 
     return user;
@@ -380,4 +397,5 @@ module.exports = {
   getPostById,
   getPostsByTagName,
   getAllTags,
+  getUserByUsername,
 };
