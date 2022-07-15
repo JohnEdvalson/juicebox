@@ -2,7 +2,7 @@ import { Routes, Route } from "react-router-dom";
 import { useEffect, useState } from "react";
 import { fetchAllPosts } from "api/posts";
 import { fetchAllUsers } from "api/users";
-import { NavBar, Posts, Users } from "components";
+import { NavBar, Posts, Users, Home } from "components";
 
 export default function App() {
   const [postList, setPostList] = useState([]);
@@ -29,6 +29,7 @@ export default function App() {
       <Routes>
         <Route path="/posts" element={<Posts postList={postList} />} />
         <Route path="/users" element={<Users userList={userList} />} />
+        <Route path="/" element={<Home />} />
       </Routes>
     </div>
   );
