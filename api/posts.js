@@ -13,18 +13,10 @@ const { getAllPosts, createPost, updatePost, getPostById } = require("../db");
 postsRouter.get("/", async (req, res) => {
   const allPosts = await getAllPosts();
   const posts = allPosts.filter((post) => {
-    console.log(post.author);
-    if (post.active && post.author.active) {
-      return true;
-    }
-    if (req.user && post.author.id === req.user.id) {
-      return true;
-    }
-
-    // return (
-    //   (post.active && post.author.active) ||
-    //   (req.user && post.author.id === req.user.id)
-    // );
+    return (
+      (post.active && post.author.active) ||
+      (req.user && post.author.id === req.user.id)
+    );
   });
 
   res.send({

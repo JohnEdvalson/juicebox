@@ -9,7 +9,6 @@ const morgan = require("morgan");
 server.use(morgan("dev"));
 server.use(express.json());
 server.use(express.static(path.join(__dirname, "./client", "build")));
-
 server.use((req, res, next) => {
   console.log("<____Body Logger START____>");
   console.log(req.body);
@@ -20,7 +19,6 @@ server.use((req, res, next) => {
 
 const apiRouter = require("./api");
 server.use("/api", apiRouter);
-
 server.use((req, res, next) => {
   res.sendFile(path.join(__dirname, "./client/build", "index.html"));
 });
